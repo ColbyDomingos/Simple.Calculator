@@ -51,7 +51,11 @@ keys.addEventListener("click", e => {
             const operator = calculator.dataset.operator;
             const secondValue = displayedNum;
 
-            if (firstValue && operator && previousKeyType !== "operator"){
+            if (firstValue && 
+                operator && 
+                previousKeyType !== "operator" &&
+                previousKeyType !== "calculate"
+            ) {
                 const calcValue = calculate(firstValue, operator, secondValue);
                 display.textContent = calcValue;
 
@@ -59,11 +63,15 @@ keys.addEventListener("click", e => {
             } else {
                 calculator.dataset.firstValue = displayedNum;
             }
-            //console.log('operator key!')
-            key.classList.add("is-depressed");
-            calculator.dataset.previousKeyType = "operator";
+           
             calculator.dataset.operator = action;
-        }
+            calculator.dataset.previousKeyType = "operator";
+
+            Array.from(key.parentNode.children).forEach((k) => 
+            k.classList.remove("is-depressed")
+        );
+        key.classList.add("is-depressed");
+    }
 
         if (action === "decimal") {
             //console.log('decimal key!')
@@ -96,7 +104,7 @@ keys.addEventListener("click", e => {
             const operator = calculator.dataset.operator;
             const secondValue = displayedNum;
 
-        if (firstValue) {
+        if (firstValue && operator) {
             if (previousKeyType === "calculate") {
                 firstValue = displayedNum;
                 secondValue = calculator.dataset.modValue;
